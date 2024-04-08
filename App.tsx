@@ -1,20 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider } from "native-base";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useAuth } from "./hook/useAuth";
+import { SnackbarProvider } from "./hook/useSnackbar";
+import Navigation from "./Navigation";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const user = useAuth();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <NativeBaseProvider>
+        <SnackbarProvider>
+          <Navigation />
+        </SnackbarProvider>
+      </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
