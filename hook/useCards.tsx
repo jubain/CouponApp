@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { useUserContext } from "./useUserContext";
 
-type cardType = {
+export type cardType = {
   category: string;
   company: string;
   description: string;
@@ -29,7 +29,7 @@ export const useGetCards = (company: string) => {
     if (company.length) {
       getCards();
     }
-  }, [company.length]);
+  }, [company]);
 
   const getCards = async () => {
     try {
@@ -46,6 +46,7 @@ export const useGetCards = (company: string) => {
       querySnapshot.docs.forEach((doc: any) => {
         coupons.push({ ...doc.data(), id: doc.id });
       });
+
       setDbCardList(coupons);
       setIsLoading(false);
     } catch (error) {

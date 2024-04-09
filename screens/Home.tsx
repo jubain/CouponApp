@@ -84,7 +84,7 @@ const cards: {
     company: "Primark",
     color: "#a390bc",
     price: "92 CHF",
-    zIndex: 1,
+    zIndex: 7,
     image: require("./images/primark.jpeg"),
     fontColor: "white",
     category: "Shopping",
@@ -93,7 +93,7 @@ const cards: {
     company: "Next",
     color: "#a390bc",
     price: "92 CHF",
-    zIndex: 2,
+    zIndex: 8,
     image: require("./images/next.jpeg"),
     fontColor: "white",
     category: "Shopping",
@@ -102,7 +102,7 @@ const cards: {
     company: "New Look",
     color: "#a390bc",
     price: "92 CHF",
-    zIndex: 3,
+    zIndex: 9,
     image: require("./images/newlook.jpeg"),
     fontColor: "white",
     category: "Shopping",
@@ -111,7 +111,7 @@ const cards: {
     company: "Uniqlo",
     color: "#a390bc",
     price: "92 CHF",
-    zIndex: 4,
+    zIndex: 10,
     image: require("./images/uniqlo.png"),
     fontColor: "black",
     category: "Shopping",
@@ -120,7 +120,7 @@ const cards: {
     company: "Xbox",
     color: "#a390bc",
     price: "92 CHF",
-    zIndex: 4,
+    zIndex: 11,
     image: require("./images/xbox.png"),
     fontColor: "white",
     category: "Game",
@@ -129,7 +129,7 @@ const cards: {
     company: "Play Station",
     color: "#a390bc",
     price: "92 CHF",
-    zIndex: 4,
+    zIndex: 12,
     image: require("./images/ps.png"),
     fontColor: "white",
     category: "Game",
@@ -137,7 +137,7 @@ const cards: {
 ];
 
 const cardTypes = [
-  { name: "Groceries", id: "Grocery" },
+  { name: "Grocery", id: "Grocery" },
   { name: "Shopping", id: "Shopping" },
   { name: "Food", id: "Food" },
   { name: "Gaming", id: "Game" },
@@ -174,6 +174,8 @@ const Home = () => {
     );
     setCardList(updatedCardList);
   }, [selectedCardType]);
+
+  console.log(selectedCardIndex);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -271,6 +273,7 @@ const Home = () => {
                       !selectedCardIndex && setSelectedCardIndex(i);
                       setSelectedCompany(card?.company);
                     }}
+                    activeOpacity={i === selectedCardIndex ? 1 : 0}
                     style={{
                       opacity:
                         selectedCardIndex === null
@@ -295,7 +298,8 @@ const Home = () => {
                       <CardComponent
                         isSelected={i === selectedCardIndex}
                         handleMinimizeCard={handleMinimizeCard}
-                         card={card}
+                        card={card}
+                        dbCardList={dbCardList}
                       />
                     </ImageBackground>
                   </TouchableOpacity>

@@ -1,7 +1,7 @@
 import { ImageSourcePropType } from "react-native";
 
 export const cardTypes = [
-  { name: "Groceries", id: "Grocery", icon: "shopping-bag" },
+  { name: "Grocery", id: "Grocery", icon: "shopping-bag" },
   { name: "Shopping", id: "Shopping", icon: "tshirt" },
   { name: "Food", id: "Food", icon: "hamburger" },
   { name: "Gaming", id: "Game", icon: "gamepad" },

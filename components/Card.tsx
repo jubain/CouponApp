@@ -5,14 +5,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
 
 import React from "react";
+import CarouselComponent from "./Carousel";
+import { cardType } from "../hook/useCards";
 
 const CardComponent = ({
   isSelected,
   handleMinimizeCard,
   card,
+  dbCardList,
 }: {
   isSelected: boolean;
   handleMinimizeCard: () => void;
@@ -24,6 +27,7 @@ const CardComponent = ({
     image: ImageSourcePropType;
     fontColor: string;
   };
+  dbCardList: cardType | undefined;
 }) => {
   return (
     <View
@@ -46,20 +50,22 @@ const CardComponent = ({
         </Text>
         {isSelected && (
           <TouchableOpacity onPress={handleMinimizeCard}>
-            <Feather
-              name="minimize-2"
-              size={24}
+            <AntDesign
+              name="closecircleo"
+              size={26}
               color={card.fontColor}
               style={{
-                borderWidth: 1,
-                borderRadius: 5,
                 padding: 8,
-                borderColor: card.fontColor,
               }}
             />
           </TouchableOpacity>
         )}
       </View>
+      {isSelected && (
+        <View style={{ height: 190, zIndex: 101, width: "100%" }}>
+          <CarouselComponent dbCardList={dbCardList} />
+        </View>
+      )}
     </View>
   );
 };

@@ -141,7 +141,6 @@ const AddCard = () => {
               downloadUrl,
               metadata: uploadTask.snapshot.metadata,
             });
-            addCard(downloadUrl);
           }
         );
       }).then((res: any) => addCard(res.downloadUrl));
