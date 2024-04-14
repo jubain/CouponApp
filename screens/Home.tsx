@@ -15,8 +15,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import Header from "../components/Header";
 import Buttons from "../components/Buttons";
 import CardComponent from "../components/Card";
-import { Icon, ZStack } from "native-base";
-import { EvilIcons } from "@expo/vector-icons";
 import Popup from "../components/Popup";
 import { useUserContext } from "../hook/useUserContext";
 import { useGetCards } from "../hook/useCards";
@@ -156,11 +154,16 @@ const Home = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const setDeleteModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   const [selectedCompany, setSelectedCompany] = useState("");
 
-  const { user } = useUserContext();
+  const { user, refetch, setRefetch } = useUserContext();
 
-  const { dbCardList } = useGetCards(selectedCompany);
+  const { dbCardList, refetch: refetchDbCardList } =
+    useGetCards(selectedCompany);
 
   const y = useRef(new Animated.Value(0)).current;
 
@@ -175,7 +178,14 @@ const Home = () => {
     setCardList(updatedCardList);
   }, [selectedCardType]);
 
-  console.log(selectedCardIndex);
+  useEffect(() => {
+    if (refetch) {
+      refetchDbCardList();
+      setRefetch(false);
+    }
+  }, [refetch]);
+
+  const [selectedCard, setSelectedCard] = useState<any>(null);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -183,6 +193,7 @@ const Home = () => {
         isModalOpen={isModalOpen}
         onModalClose={() => setIsModalOpen(false)}
         title="Delete Card"
+        selectedCard={selectedCard}
       />
       <LinearGradient
         colors={["rgba(9,119,121,1)", "transparent"]}
@@ -247,27 +258,6 @@ const Home = () => {
                   key={card.company}
                   style={[{ transform: [{ translateY }] }, cardStyle]}
                 >
-                  {deleteClicked && (
-                    <TouchableOpacity
-                      style={{
-                        position:
-                          Platform.OS === "ios" ? "relative" : "absolute",
-                        zIndex: 20,
-                        right: 0,
-                      }}
-                      onPress={() => {
-                        setIsModalOpen(true);
-                      }}
-                    >
-                      <Icon
-                        as={EvilIcons}
-                        name="minus"
-                        size={8}
-                        color="#FF0000"
-                        alignSelf="center"
-                      />
-                    </TouchableOpacity>
-                  )}
                   <TouchableOpacity
                     onPress={() => {
                       !selectedCardIndex && setSelectedCardIndex(i);
@@ -300,6 +290,8 @@ const Home = () => {
                         handleMinimizeCard={handleMinimizeCard}
                         card={card}
                         dbCardList={dbCardList}
+                        setDeleteModal={setDeleteModal}
+                        setSelectedCard={setSelectedCard}
                       />
                     </ImageBackground>
                   </TouchableOpacity>

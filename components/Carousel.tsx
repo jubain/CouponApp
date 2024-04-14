@@ -1,23 +1,21 @@
-import {
-  Dimensions,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Carousel from "react-native-snap-carousel";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "native-base";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { cardType } from "../hook/useCards";
+
 const catImage =
   "https://media.4-paws.org/5/b/4/b/5b4b5a91dd9443fa1785ee7fca66850e06dcc7f9/VIER%20PFOTEN_2019-12-13_209-2890x2000-1920x1329.jpg";
 
 const CarouselComponent = ({
   dbCardList,
+  setDeleteModal,
+  setSelectedCard,
 }: {
   dbCardList: cardType | undefined;
+  setDeleteModal: () => void;
+  setSelectedCard: any;
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselItems = [
@@ -38,13 +36,28 @@ const CarouselComponent = ({
       <ImageBackground
         source={{ uri: item.image }}
         style={{
-          //   backgroundColor: "floralwhite",
           borderRadius: 10,
           height: 190,
           marginLeft: 10,
           marginRight: 10,
         }}
       >
+        <Icon
+          as={MaterialCommunityIcons}
+          name="delete-circle"
+          size={10}
+          color="#C70039"
+          alignSelf="center"
+          style={{
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+          }}
+          onPress={() => {
+            setSelectedCard(item);
+            setDeleteModal();
+          }}
+        />
         <View
           style={{
             display: "flex",
@@ -96,14 +109,16 @@ const CarouselComponent = ({
         zIndex: 100,
       }}
     >
-      <Carousel
-        layout={"default"}
-        data={dbCardList?.length ? dbCardList : carouselItems}
-        sliderWidth={300}
-        itemWidth={370}
-        renderItem={_renderItem}
-        onSnapToItem={(index: any) => setActiveIndex(index)}
-      />
+      {dbCardList && (
+        <Carousel
+          layout={"default"}
+          data={dbCardList}
+          sliderWidth={300}
+          itemWidth={370}
+          renderItem={_renderItem}
+          onSnapToItem={(index: any) => setActiveIndex(index)}
+        />
+      )}
     </View>
   );
 };

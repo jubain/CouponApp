@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -7,8 +8,10 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../config/firebase";
+import { db, storage } from "../config/firebase";
 import { useUserContext } from "./useUserContext";
+import { err } from "react-native-svg";
+import { deleteObject, ref } from "firebase/storage";
 
 export type cardType = {
   category: string;
@@ -27,11 +30,11 @@ export const useGetCards = (company: string) => {
   const { user } = useUserContext();
   useEffect(() => {
     if (company.length) {
-      getCards();
+      getCards(company);
     }
   }, [company]);
 
-  const getCards = async () => {
+  const getCards = async (company: string) => {
     try {
       setIsLoading(true);
 
@@ -54,5 +57,30 @@ export const useGetCards = (company: string) => {
     }
   };
 
-  return { dbCardList, isLoading, getCards };
+  const refetch = () => {
+    getCards(company);
+  };
+
+  return { dbCardList, isLoading, getCards, refetch };
+};
+
+export const useDeleteCard = async (id: string) => {
+  try {
+    const card = await deleteDoc(doc(db, "Coupon", id));
+    console.log(card);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const useDeleteImage = async (image: string) => {
+  try {
+    // Create a reference to the file to delete
+    const desertRef = ref(storage, image);
+
+    // Delete the file
+    await deleteObject(desertRef);
+  } catch (error) {
+    console.error(error);
+  }
 };

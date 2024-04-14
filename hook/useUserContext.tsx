@@ -10,6 +10,8 @@ export const useUserContext = () => useContext(UserContext);
 export const UserProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<User>();
 
+  const [refetch, setRefetch] = useState(false);
+
   const login = (userData: User) => {
     setUser(userData);
   };
@@ -31,7 +33,7 @@ export const UserProvider = ({ children }: { children: any }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, refetch, setRefetch }}>
       {children}
     </UserContext.Provider>
   );

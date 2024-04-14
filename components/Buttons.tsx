@@ -43,25 +43,6 @@ const Buttons = ({
           Add
         </Text>
       </View>
-      <View style={{ width: 80 }}>
-        <TouchableOpacity
-          style={styles.removeButton}
-          onPress={() => {
-            setDeleteClicked((prevState) => !prevState);
-          }}
-        >
-          <Icon
-            as={MaterialIcons}
-            name="delete"
-            size={8}
-            color="#a30625"
-            alignSelf="center"
-          />
-        </TouchableOpacity>
-        <Text style={{ textAlign: "center", fontSize: 15, color: "gray" }}>
-          Delete
-        </Text>
-      </View>
     </Animated.View>
   );
 };

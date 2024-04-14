@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import React from "react";
 import CarouselComponent from "./Carousel";
@@ -16,6 +16,8 @@ const CardComponent = ({
   handleMinimizeCard,
   card,
   dbCardList,
+  setDeleteModal,
+  setSelectedCard,
 }: {
   isSelected: boolean;
   handleMinimizeCard: () => void;
@@ -28,6 +30,8 @@ const CardComponent = ({
     fontColor: string;
   };
   dbCardList: cardType | undefined;
+  setDeleteModal: () => void;
+  setSelectedCard: any;
 }) => {
   return (
     <View
@@ -63,7 +67,11 @@ const CardComponent = ({
       </View>
       {isSelected && (
         <View style={{ height: 190, zIndex: 101, width: "100%" }}>
-          <CarouselComponent dbCardList={dbCardList} />
+          <CarouselComponent
+            setDeleteModal={setDeleteModal}
+            dbCardList={dbCardList}
+            setSelectedCard={setSelectedCard}
+          />
         </View>
       )}
     </View>
